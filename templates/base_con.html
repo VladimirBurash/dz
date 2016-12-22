@@ -1,0 +1,23 @@
+{% load static %}
+{% load staticfiles %}
+{% for s in shows %}
+
+<div class="container">
+            <div class="jumbotron">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="image_block">
+                            <a href ="{% url 'show' s.id %}"><img class = "show_image" src="{% static s.image_url %}" ></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <a href ="{% url 'show' s.id %}"><h1>{{ s.groups }}</h1></a>
+                        <h3>{{ s.place }}</h3>
+                        <h3>{{ s.datetime }}</h3>
+                    </div>
+                </div>
+            </div>
+</div>
+    {% empty %}
+    N/A
+{% endfor %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Концерт{% endblock %}
+{% block title_visible %}
+
+    <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="#">{{ user.get_username }}</a></li>
+        <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+    </ul>
+{% endblock %}
+{% block body %}
+    {% csrf_token %}
+        <div class="container">
+            <div class="row">
+                    <div class="col-sm-5">
+                        <div class="image_block">
+                            <img class = "show_image" src="{% static show.image_url %}" >
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <h1>{{ show.groups }}</h1>
+                        <h3>{{ show.place }}</h3>
+                        <h3>{{ show.datetime }}</h3>
+                    </div>
+                <form method="post">
+                    <input type="submit"  value="Учавствую" class="btn btn-default"/>
+
+                    </form>
+                {% for u in users %}
+                <h1>{{ u.username }}</h1>
+
+                {% endfor %}
+
+                </div>
+        </div>
+{% endblock %}

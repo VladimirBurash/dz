@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title_visible %}
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-user"></span>Login</a></li>
+      <li><a href="{% url 'signup' %}"><span class="glyphicon glyphicon-user"></span>Signup</a></li>
+    </ul>
+{% endblock %}
+
+{% block body %}
+
+{{ form.non_field_errors }}
+<form action="/signup/" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {%  for i in form %}
+                    <div class="form-group">
+                        <label class="col-sm-4">{{ i.label }}</label>
+                        <div class="col-sm-8">
+                            <div>
+                                {{ i }}
+                            </div>
+                            <div>
+                                    {{ i.errors }}
+                            </div>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8">
+                            <input type="submit" value="SIGNUP" class="btn btn-default"/>
+                        </div>
+                    </div>
+</form>
+{% endblock %}
