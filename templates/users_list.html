@@ -1,0 +1,7 @@
+{% load static %}
+{% load staticfiles %}
+{% for u in users %}
+    <h1>{{ u.username }}</h1>
+    {% empty %}
+    <h1>No users</h1>
+{% endfor %}

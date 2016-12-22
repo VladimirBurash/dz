@@ -55,11 +55,6 @@ def ajax_list(request,page_id):
     pos = int(page_id)
     return render_to_response('base_con.html', {'shows': render_cons(pos)})
 
-def handle_uploaded_file(f,name):
-    with open('/file/name.txt', 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-
 @csrf_exempt
 def shows_view(request):
     if not request.user.is_authenticated():
@@ -88,21 +83,26 @@ def shows_view(request):
 
 @csrf_exempt
 def show_view(request,show_id):
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect('/login/')
     show = get_object_or_404(Show, id=show_id)
+    if request.method == 'GET':
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect('/login/')
+        status = show.participation.filter(id=request.user.id).exists()
+
+        return render(request, 'show.html',
+                      { 'show': Show.objects.get(id=show_id), 'status': status}
+                      )
+
     if request.method == 'POST':
-        if request.user.is_authenticated():
-            if not show.participation.filter(id=request.user.id).exists():
+        state = request.POST.get('state')
+        if state == "True" and not show.participation.filter(id=request.user.id).exists():
                 show.participation.add(request.user)
-            else:
+        if state == 'False' and show.participation.filter(id=request.user.id).exists():
                 show.participation.remove(request.user)
 
-        return render(request, 'show.html', {'users': show.participation.all(),'show': Show.objects.get(id=show_id)}
-                  )
+        return render_to_response('users_list.html', {'users': show.participation.all()})
 
-    return render(request, 'show.html', {'users': show.participation.all(),'show': Show.objects.get(id=show_id)}
-                  )
+
 
 
 

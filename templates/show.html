@@ -22,15 +22,15 @@
                         <h3>{{ show.place }}</h3>
                         <h3>{{ show.datetime }}</h3>
                     </div>
-                <form method="post">
-                    <input type="submit"  value="Учавствую" class="btn btn-default"/>
 
-                    </form>
-                {% for u in users %}
-                <h1>{{ u.username }}</h1>
+                <button id="bt_load_users" class="btn btn-default">Приду</button>
 
-                {% endfor %}
-
+                <div id="list_of_users" user_state="{{ status }}">
                 </div>
+            </div>
         </div>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'users.js' %}">
+    </script>
 {% endblock %}
